@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Peta Rute Wisata Jogja</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        label, select, button {
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        select, button {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #1c5980;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .route-image {
+            display: block;
+            margin: 20px auto;
+            max-width: 90%;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h2>🗺️ Pencarian Rute Wisata di Yogyakarta</h2>
+
+    <div class="form-container">
+        <form method="POST">
+            <label for="start">Pilih Lokasi Awal:</label>
+            <select name="start" id="start" required>
+                {% for node in nodes %}
+                    <option value="{{ node }}" {% if node == start %}selected{% endif %}>{{ node }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="end">Pilih Lokasi Tujuan:</label>
+            <select name="end" id="end" required>
+                {% for node in nodes %}
+                    <option value="{{ node }}" {% if node == end %}selected{% endif %}>{{ node }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Cari Rute Terpendek</button>
+        </form>
+
+        {% if route %}
+        <div class="result">
+            <h3>Rute Terpendek:</h3>
+            <p><strong>{{ route|join(' → ') }}</strong></p>
+            <p>Total Jarak: <strong>{{ cost }} km</strong></p>
+            <img class="route-image" src="{{ url_for('static_files', filename='route.png') }}" alt="Peta Rute">
+        </div>
+        {% endif %}
+    </div>
+
+    <footer>© 2025 Rute Wisata Jogja — Dibuat dengan Flask & Matplotlib</footer>
+</body>
+</html>
